@@ -1,0 +1,50 @@
+# The following types define the data model of the example service
+# based on which the GraphQL API is generated
+
+type User @model {
+  id: ID! @isUnique
+  email: String @isUnique
+
+  # Uncomment below - you can declare relations between models like this
+
+  # posts: [Post!]! @relation(name: "UserPosts")
+}
+
+# System is a thing that can be alerted on/ a thing that can trigger an alert
+# this could be an application or a server, or anything really.
+type System @model {
+  id: ID! @isUnique
+  name: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  messages: [Message!]! @relation(name: "SystemMessages")
+}
+
+type Message @model {
+  id: ID! @isUnique
+  contents: String
+  system: System! @relation(name: "SystemMessages")
+}
+
+enum AlertTypeEnum {
+  call
+  email
+  sms
+}
+
+type Alert @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  alertType: AlertTypeEnum
+}
+
+
+# Uncomment the model below as well
+
+# type Post @model {
+#   id: ID! @isUnique
+#   title: String!
+#
+#   # Every relation also required a back-relation (to determine 1:1, 1:n or n:m)
+#   author: User! @relation(name: "UserPosts")
+# }
